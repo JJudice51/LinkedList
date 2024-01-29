@@ -25,8 +25,9 @@ private:
 
 
 };
-	
 
+template<typename AnyType>
+inline void Node<AnyType>::Node()
 
 
 
