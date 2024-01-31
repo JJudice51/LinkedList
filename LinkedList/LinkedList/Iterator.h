@@ -8,6 +8,7 @@ class Iterator
 public:
 
 	Iterator();
+
 	/// <summary>
 	/// 
 	/// </summary>
