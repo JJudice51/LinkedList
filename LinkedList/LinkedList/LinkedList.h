@@ -172,7 +172,7 @@ public:
 template<typename AnyType>
 inline LinkedList<AnyType>::LinkedList()
 {
-	*this = 0;
+	*this = nullptr;
 }
 
 template<typename AnyType>
