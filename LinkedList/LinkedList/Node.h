@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 
 template<typename AnyType>
 class Node
@@ -33,9 +32,18 @@ public:
 
 };
 
+template<typename AnyType>
+inline Node<AnyType>::Node()
+{
+	previous = nullptr;
+	next = nullptr;
 
+}
 
-
-
-
-
+template<typename AnyType>
+inline Node<AnyType>::Node(AnyType value)
+{
+	data = value;
+	previous = nullptr;
+	next = nullptr;
+}

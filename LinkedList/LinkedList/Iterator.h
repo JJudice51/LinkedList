@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "Node.h"
 template<typename AnyType>
 class Iterator
@@ -7,13 +6,13 @@ class Iterator
 
 public:
 
-	Iterator();
+	Iterator<AnyType>();
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="node"></param>
-	Iterator(Node<AnyType>* node);
+	Iterator<AnyType>(Node<AnyType>* node);
 
 	/// <summary>
 	/// 
@@ -53,16 +52,58 @@ public:
 private:
 
 	/// <summary>
-	/// 
+	/// The node the iterator is current looking at.
 	/// </summary>
 	/// <typeparam name="AnyType"></typeparam>
-	Node m_current
+	Node<AnyType>* m_current
 
 
 };
 
+template<typename AnyType>
+inline Iterator<AnyType>::Iterator()
+{
+	m_current = nullptr;
+}
 
+template<typename AnyType>
+inline Iterator<AnyType>::Iterator(Node<AnyType>* node)
+{
+	m_current = node;
+}
 
+template<typename AnyType>
+inline Iterator<AnyType> Iterator<AnyType>::operator++()
+{
+	Iterator<AnyType> iter = Iterator<AnyType>(m_current->next);
+	return iter;
+}
 
+template<typename AnyType>
+inline Iterator<AnyType> Iterator<AnyType>::operator--()
+{
+	Iterator<AnyType> iter = Iterator<AnyType>(m_current->previous);
+	return iter;
+}
 
+template<typename AnyType>
+inline const bool Iterator<AnyType>::operator==(const Iterator<AnyType>& iter)
+{
+	return m_current == iter.m_current;
+	//below would equal the same thing as above
+	//if(this->m_current == iter.m_current)
+	//return true;
+}
 
+template<typename AnyType>
+inline const bool Iterator<AnyType>::operator!=(const Iterator<AnyType>& iter)
+{
+	return m_current != iter.m_current;
+}
+
+template<typename AnyType>
+inline AnyType Iterator<AnyType>::operator*()
+{
+	
+	return m_current->data;
+}
