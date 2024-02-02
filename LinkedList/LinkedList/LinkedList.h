@@ -172,25 +172,29 @@ public:
 template<typename AnyType>
 inline LinkedList<AnyType>::LinkedList()
 {
-	*this = nullptr;
+	initialize();
 }
 
 template<typename AnyType>
 inline LinkedList<AnyType>::LinkedList(const LinkedList<AnyType>& other)
 {
+	initialize();
+
 	*this = other;
 	
 	m_first = other.m_first;
 	m_last = other.m_last;
 
-	for (Iterator<AnyType>)
+	for (Iterator<AnyType>);
 }
 
 
 template<typename AnyType>
 inline void LinkedList<AnyType>::initialize()
 {
-	
+	m_first = nullptr;
+	m_last = nullptr;
+	m_nodeCount = 0;
 }
 
 template<typename AnyType>
@@ -365,6 +369,7 @@ inline const bool LinkedList<AnyType>::getLength()
 template<typename AnyType>
 inline void LinkedList<AnyType>::operator=(const LinkedList<AnyType>& otherLinkedList)
 {
+	//need to pop the the old list and take the data and put it in the new list.
 }
 
 template<typename AnyType>
