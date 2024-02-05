@@ -18,41 +18,41 @@ public:
 	~LinkedList();
 
 	/// <summary>
-	/// 
+	/// set the default values for the first node pointer, the last node pointer, and the node count
 	/// </summary>
 	void initialize();
 
 	/// <summary>
-	/// 
+	/// deletes all nodes in the LinkedList
 	/// </summary>
 	void destroy();
 
 	/// <summary>
-	/// 
+	/// returns an iterator pointing to the first node in the LinkedList
 	/// </summary>
 	/// <returns></returns>
 	Iterator<AnyType> begin() const;
 	
 	/// <summary>
-	/// 
+	/// returns the next item after the last node in the LinkedList
 	/// </summary>
 	/// <returns></returns>
 	Iterator<AnyType> end()  const;
 
 	/// <summary>
-	/// 
+	///  returns the first value in the LinkedList
 	/// </summary>
 	/// <returns></returns>
 	AnyType first() const;
 	
 	/// <summary>
-	/// 
+	/// returns the last value in the LinkedList
 	/// </summary>
 	/// <returns></returns>
 	AnyType last() const;
 
 	/// <summary>
-	/// 
+	/// checks to see if the given item is in the LinkedList
 	/// </summary>
 	/// <param name="object"></param>
 	/// <returns></returns>
@@ -70,31 +70,31 @@ public:
 	void print() const;
 
 	/// <summary>
-	/// 
+	/// adds a new node to the beginning of the LinkedList
 	/// </summary>
 	/// <param name="value"></param>
 	void pushFront(const AnyType& value);
 	
 	/// <summary>
-	/// 
+	/// adds a new node to the end of the LinkedList
 	/// </summary>
 	/// <param name="value"></param>
-	void PushBack(const AnyType& value);
+	void pushBack(const AnyType& value);
 
 	/// <summary>
-	/// 
+	/// removes the node at the beginning of the LinkedList and returns the value
 	/// </summary>
 	/// <returns></returns>
 	AnyType PopFront();
 	
 	/// <summary>
-	/// 
+	///  removes the node at the end of the LinkedList and returns the value
 	/// </summary>
 	/// <returns></returns>
 	AnyType PopBack();
 
 	/// <summary>
-	/// 
+	/// adds a new node at the given index
 	/// </summary>
 	/// <param name="value"></param>
 	/// <param name="index"></param>
@@ -102,21 +102,21 @@ public:
 	bool insert(const AnyType& value, int index);
 	
 	/// <summary>
-	/// 
+	/// removes the first node with the given value
 	/// </summary>
 	/// <param name="value"></param>
 	/// <returns></returns>
 	bool remove(const AnyType& value);
 
 	/// <summary>
-	/// 
+	/// prints the values for all the nodes
 	/// </summary>
 	/// <returns></returns>
 	const void print();
 	
 	
 	/// <summary>
-	/// 
+	/// sets the given iterator to point to a node at the given index
 	/// </summary>
 	/// <param name="iter"></param>
 	/// <param name="index"></param>
@@ -124,10 +124,10 @@ public:
 	bool getData(Iterator<AnyType>& iter, int index);
 	
 	/// <summary>
-	/// 
+	/// returns the amount of nodes in the LinkedList
 	/// </summary>
 	/// <returns></returns>
-	const bool getLength();
+	const int getLength();
 	
 	/// <summary>
 	/// 
@@ -200,12 +200,15 @@ inline void LinkedList<AnyType>::initialize()
 template<typename AnyType>
 inline void LinkedList<AnyType>::destroy()
 {
+	//need this to delete all nodes in the link list 
+	//so need it to iterate through each 
 }
 
 template<typename AnyType>
 inline Iterator<AnyType> LinkedList<AnyType>::begin() const
 {
-	return Iterator<AnyType>();
+
+	return Iterator<AnyType>(m_first);
 }
 
 template<typename AnyType>
@@ -270,7 +273,7 @@ inline void LinkedList<AnyType>::pushFront(const AnyType& value)
 }
 
 template<typename AnyType>
-inline void LinkedList<AnyType>::PushBack(const AnyType& value)
+inline void LinkedList<AnyType>::pushBack(const AnyType& value)
 {
 	//create a new node that contains the given value 
 	Node<AnyType>* newNode = new Node<AnyType>(value);
@@ -361,15 +364,22 @@ inline bool LinkedList<AnyType>::getData(Iterator<AnyType>& iter, int index)
 }
 
 template<typename AnyType>
-inline const bool LinkedList<AnyType>::getLength()
+inline const int LinkedList<AnyType>::getLength()
 {
-	return false;
+
+	return m_nodeCount;
 }
 
 template<typename AnyType>
 inline void LinkedList<AnyType>::operator=(const LinkedList<AnyType>& otherLinkedList)
 {
 	//need to pop the the old list and take the data and put it in the new list.
+	for (int iter = 0; iter < otherLinkedList.getLength(); iter++)
+	{
+		pushBack(otherLinkedList.PopFront());
+	
+	}
+
 }
 
 template<typename AnyType>
