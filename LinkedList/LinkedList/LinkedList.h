@@ -40,7 +40,7 @@ public:
 	Iterator<AnyType> end()  const;
 
 	/// <summary>
-	///  returns the first value in the LinkedList
+	/// returns the first value in the LinkedList
 	/// </summary>
 	/// <returns></returns>
 	AnyType first() const;
@@ -59,13 +59,13 @@ public:
 	bool contains(const AnyType object) const;
 	
 	/// <summary>
-	/// 
+	/// returns whether or not the LinkedList has any nodes in it
 	/// </summary>
 	/// <returns></returns>
 	bool isEmpty() const;
 	
 	/// <summary>
-	/// 
+	/// prints the values for all the nodes
 	/// </summary>
 	void print() const;
 
@@ -85,13 +85,13 @@ public:
 	/// removes the node at the beginning of the LinkedList and returns the value
 	/// </summary>
 	/// <returns></returns>
-	AnyType PopFront();
+	AnyType popFront();
 	
 	/// <summary>
-	///  removes the node at the end of the LinkedList and returns the value
+	/// removes the node at the end of the LinkedList and returns the value
 	/// </summary>
 	/// <returns></returns>
-	AnyType PopBack();
+	AnyType popBack();
 
 	/// <summary>
 	/// adds a new node at the given index
@@ -107,13 +107,6 @@ public:
 	/// <param name="value"></param>
 	/// <returns></returns>
 	bool remove(const AnyType& value);
-
-	/// <summary>
-	/// prints the values for all the nodes
-	/// </summary>
-	/// <returns></returns>
-	const void print();
-	
 	
 	/// <summary>
 	/// sets the given iterator to point to a node at the given index
@@ -143,17 +136,17 @@ public:
 	private:
 
 		/// <summary>
-		/// 
+		/// first node in the link list
 		/// </summary>
 		Node<AnyType>* m_first;
 
 		/// <summary>
-		/// 
+		/// last node in the link list
 		/// </summary>
 		Node <AnyType>* m_last;
 
 		/// <summary>
-		/// 
+		/// the amount of nodes inside of the link list
 		/// </summary>
 		int m_nodeCount;
 
@@ -200,14 +193,20 @@ inline void LinkedList<AnyType>::initialize()
 template<typename AnyType>
 inline void LinkedList<AnyType>::destroy()
 {
-	//need this to delete all nodes in the link list 
-	//so need it to iterate through each 
+	if (m_nodeCount == 0)
+		return;
+
+	for (int i = 0; i < m_nodeCount; i++)
+	{
+		popBack();
+	}
+
+	initialize();
 }
 
 template<typename AnyType>
 inline Iterator<AnyType> LinkedList<AnyType>::begin() const
 {
-
 	return Iterator<AnyType>(m_first);
 }
 
@@ -245,10 +244,7 @@ inline bool LinkedList<AnyType>::isEmpty() const
 	return false;
 }
 
-template<typename AnyType>
-inline void LinkedList<AnyType>::print() const
-{
-}
+
 
 template<typename AnyType>
 inline void LinkedList<AnyType>::pushFront(const AnyType& value)
@@ -265,7 +261,7 @@ inline void LinkedList<AnyType>::pushFront(const AnyType& value)
 	//set first to be the new node
 	m_first = newNode;
 
-	//check if the only node is the new node we just made and if so make it the last as well as the first. This will also make both of new node's next and previous null pointer's
+	//check if the only node is the new node we just made and if so make it the last as well as the first. This will also make both of new node's next and previous null pointers
 	if (m_nodeCount == 0)
 		m_last = newNode;
 	//increase the amount of nodes within the list being tracked
@@ -278,6 +274,17 @@ inline void LinkedList<AnyType>::pushBack(const AnyType& value)
 	//create a new node that contains the given value 
 	Node<AnyType>* newNode = new Node<AnyType>(value);
 
+	//increase the amount of nodes within the list being tracked
+	m_nodeCount++;
+
+	//check if the only node is the new node we just made and if so make it the first as well as the last. This will also make both of new node's next and previous null pointers
+	if (!m_last)
+	{
+		m_last = newNode;
+		m_first = newNode;
+		return;
+	}
+
 	//set the last's next to be the new node
 	m_last->next = newNode;
 
@@ -287,29 +294,30 @@ inline void LinkedList<AnyType>::pushBack(const AnyType& value)
 	//set the last node to be the new node
 	m_last = newNode;
 
-	//check if the only node is the new node we just made and if so make it the first as well as the last. This will also make both of new node's next and previous null pointer's
-	if (m_nodeCount == 0)
-		m_first = newNode;
-
-	//increase the amount of nodes within the list being tracked
-	m_nodeCount++;
 }
 
 template<typename AnyType>
-inline AnyType LinkedList<AnyType>::PopFront()
+inline AnyType LinkedList<AnyType>::popFront()
 {
+	//if list is empty nothing to pop so dont't run code
+	if (m_nodeCount == 0)
+		return AnyType();
+
 	//save data inside of first in local variable
 	AnyType value = m_first->data;
 	
 	//make the next of first the new first
 	m_first = m_first->next;
 
-	//delete the old first aka new first's previous 
-	delete m_first->previous;
+	//
+	if (!m_first->previous)
+	{
+		//delete the old first aka new first's previous 
+		delete m_first->previous;
 
-	//make the new first's previous null pointer
-	m_first->previous = nullptr;
-
+		//make the new first's previous null pointer
+		m_first->previous = nullptr;
+	}
 	//reduce the nodecount by 1
 	m_nodeCount--;
 
@@ -318,20 +326,26 @@ inline AnyType LinkedList<AnyType>::PopFront()
 }
 
 template<typename AnyType>
-inline AnyType LinkedList<AnyType>::PopBack()
+inline AnyType LinkedList<AnyType>::popBack()
 {
+	//if list is empty nothing to pop so dont't run code
+	if (m_nodeCount == 0)
+		return AnyType();
+
 	//save data inside of first in local variable
 	AnyType value = m_last->data;
 
 	//make the previous of last the new last
 	m_last = m_last->previous;
 
-	//delete the old last aka new last's next
-	delete m_last->next;
+	if (!m_last->next)
+	{
+		//delete the old last aka new last's next
+		delete m_last->next;
 
-	//make the new last's next null pointer
-	m_last->next = nullptr;
-	
+		//make the new last's next null pointer
+		m_last->next = nullptr;
+	}
 	//reduce the nodecount by 1
 	m_nodeCount--;
 
@@ -342,19 +356,93 @@ inline AnyType LinkedList<AnyType>::PopBack()
 template<typename AnyType>
 inline bool LinkedList<AnyType>::insert(const AnyType& value, int index)
 {
+	//check if the iindex is within the bounds of the list
+	if(index < 0 || index >= m_nodeCount)
 	return false;
+
+	//if the list is empty...
+	if (m_nodeCount == 0)
+	{
+		//...re-use the logivc from pushback to add it to the list
+		pushBack(value);
+		return true;
+	}
+
+	if (index == 0)
+		pushFront(value);
+
+	
+	//
+	Node<AnyType>* newNode = new Node<AnyType>(value);
+
+	Node<AnyType>*iter = m_first;
+
+	for (int i = 0; i <= index; i++)
+	{
+		if (iter->next == nullptr)
+			break;
+
+		iter = iter->next;
+	}
+
+	newNode->next = iter;
+	newNode->previous = iter->previous;
+	
+	//new node's previous' next is new node
+	newNode->previous->next = newNode;
+
+	iter->previous = newNode;
+
+	m_nodeCount++;
+
+	return true;
 }
 
 template<typename AnyType>
 inline bool LinkedList<AnyType>::remove(const AnyType& value)
 {
-	return false;
+
+	Node<AnyType>* iter = m_first;
+
+	for (int i = 0; i <= m_nodeCount; i++)
+	{
+		if (iter == nullptr)
+			return false;
+
+		if (iter->data == value)
+			break;
+
+		iter = iter->next;
+	}
+	if (iter == m_first)
+	{
+		popFront();
+		return true;
+	}
+	if (iter == m_last)
+	{
+		popBack();
+		return true;
+	}
+	
+
+	iter->next->previous = iter->previous;
+	iter->previous->next = iter->next;
+
+	delete iter;
+
+	m_nodeCount--;
+
+	return true;
 }
 
 template<typename AnyType>
-inline const void LinkedList<AnyType>::print()
+inline void LinkedList<AnyType>::print() const
 {
-	return void();
+	for (Iterator <AnyType> iter = begin(); iter != end(); ++iter)
+	{
+		std::cout << *iter << std::endl;
+	}
 }
 
 template<typename AnyType>
@@ -374,9 +462,9 @@ template<typename AnyType>
 inline void LinkedList<AnyType>::operator=(const LinkedList<AnyType>& otherLinkedList)
 {
 	//need to pop the the old list and take the data and put it in the new list.
-	for (int iter = 0; iter < otherLinkedList.getLength(); iter++)
+	for (int i = 0; i < otherLinkedList.m_nodeCount; i++)
 	{
-		pushBack(otherLinkedList.PopFront());
+		insert(i);
 	
 	}
 

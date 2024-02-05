@@ -1,2 +1,7 @@
-﻿MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
-C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\x64\Debug\LinkedList.exe : fatal error LNK1120: 1 unresolved externals
+﻿  Source.cpp
+C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\LinkedList\Iterator.h(61,1): error C2143: syntax error: missing ';' before '}'
+C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\LinkedList\Iterator.h(61): message : see reference to class template instantiation 'Iterator<AnyType>' being compiled
+C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\LinkedList\LinkedList.h(181,24): error C2760: syntax error: ')' was unexpected here; expected ';'
+C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\LinkedList\LinkedList.h(196,20): error C2760: syntax error: ')' was unexpected here; expected 'expression'
+C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\LinkedList\LinkedList.h(197,1): error C2760: syntax error: '}' was unexpected here; expected 'statement'
+C:\Users\s238014\Documents\GitHub\LinkedList\LinkedList\LinkedList\Source.cpp(14,1): error C2059: syntax error: '}'
