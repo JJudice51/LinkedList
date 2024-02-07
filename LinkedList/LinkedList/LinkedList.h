@@ -174,11 +174,7 @@ inline LinkedList<AnyType>::LinkedList(const LinkedList<AnyType>& other)
 	initialize();
 
 	*this = other;
-	
-	m_first = other.m_first;
-	m_last = other.m_last;
 
-	for (Iterator<AnyType>);
 }
 
 
@@ -223,13 +219,13 @@ inline Iterator<AnyType> LinkedList<AnyType>::end() const
 template<typename AnyType>
 inline AnyType LinkedList<AnyType>::first() const
 {
-	return AnyType();
+	return m_first->data;
 }
 
 template<typename AnyType>
 inline AnyType LinkedList<AnyType>::last() const
 {
-	return AnyType();
+	return m_last->data;
 }
 
 template<typename AnyType>
@@ -241,7 +237,12 @@ inline bool LinkedList<AnyType>::contains(const AnyType object) const
 template<typename AnyType>
 inline bool LinkedList<AnyType>::isEmpty() const
 {
-	return false;
+	//if both first and last are null pointers then the node count would be 0 and the LinkedList is empty
+	if (m_first == nullptr && m_last == nullptr)
+	{
+		std::cout << "LinkedList is empty" << std::endl;
+		return true;
+	}
 }
 
 
@@ -454,7 +455,6 @@ inline bool LinkedList<AnyType>::getData(Iterator<AnyType>& iter, int index)
 template<typename AnyType>
 inline const int LinkedList<AnyType>::getLength()
 {
-
 	return m_nodeCount;
 }
 
@@ -475,4 +475,9 @@ inline void LinkedList<AnyType>::sort()
 {
 }
 
-
+//need to finish constructor
+//need to finish getdata
+//need to finish sort
+//need to finish contains
+//need to finish operator =
+//need to test all functions
